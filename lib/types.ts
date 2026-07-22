@@ -97,3 +97,109 @@ export type LayoutValidationResult = {
   violations: Violation[];
 };
 
+export type ReferenceAnchorType = "twin_bed" | "desk" | "door" | "closet" | "dresser";
+
+export type ReferenceAnchorLabel = {
+  anchorType: ReferenceAnchorType;
+  measuredSize: {
+    width: number; // inches
+    depth?: number; // inches, if available
+    height?: number; // inches, if available
+  };
+  bbox: {
+    x: number; // normalized image coordinate [0,1]
+    y: number; // normalized image coordinate [0,1]
+    width: number; // normalized image width [0,1]
+    height: number; // normalized image height [0,1]
+  };
+  notes?: string;
+};
+
+export type DetectionClass =
+  | "bed"
+  | "desk"
+  | "closet"
+  | "dresser"
+  | "nightstand"
+  | "chair"
+  | "door"
+  | "window"
+  | "other";
+
+export type TrainingObjectLabel = {
+  id: string;
+  class: DetectionClass;
+  bbox: {
+    x: number; // normalized image coordinate [0,1]
+    y: number; // normalized image coordinate [0,1]
+    width: number; // normalized image width [0,1]
+    height: number; // normalized image height [0,1]
+  };
+  position?: Vector2; // optional ground-plane room position in inches
+  size?: Vector2; // optional width/depth in inches
+  rotation?: number; // optional degrees
+  anchorType?: ReferenceAnchorType;
+  confidence?: number;
+  attributes?: Record<string, unknown>;
+};
+
+export type RoomBoundaryAnnotation = {
+  wallCorners: Vector2[]; // ordered polygon points in room coordinates
+  roomWidth: number; // inches
+  roomDepth: number; // inches
+  roomHeight?: number; // inches
+  door?: Door;
+  fixedZones?: FixedZone[];
+};
+
+export type TrainingSample = {
+  imageUrl?: string;
+  imageMetadata?: {
+    width: number;
+    height: number;
+    cameraOrientation: "top_down" | "angled" | "eye_level";
+    focalLengthMm?: number;
+    deviceModel?: string;
+  };
+  referenceAnchors: ReferenceAnchorLabel[];
+  objectLabels: TrainingObjectLabel[];
+  roomAnnotation: RoomBoundaryAnnotation;
+  notes?: string;
+};
+
+export type ModelInput = {
+  imageBase64?: string;
+  imageUrl?: string;
+  cameraMetadata?: {
+    width: number;
+    height: number;
+    cameraOrientation: "top_down" | "angled" | "eye_level";
+    focalLengthMm?: number;
+    deviceModel?: string;
+  };
+  selectedReferenceAnchor?: ReferenceAnchorType | ReferenceAnchorLabel;
+  depthMapBase64?: string;
+  lidarPointCloudUrl?: string;
+};
+
+export type ModelOutput = {
+  roomLayout: RoomLayout;
+  referenceAnchorUsed?: ReferenceAnchorType;
+  objectDetections: Array<{
+    id: string;
+    class: DetectionClass;
+    bbox: {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+    position: Vector2;
+    size: Vector2;
+    rotation: number;
+    confidence?: number;
+  }>;
+  layoutConfidence?: number;
+  errors?: string[];
+};
+

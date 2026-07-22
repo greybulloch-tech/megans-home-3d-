@@ -11,6 +11,7 @@ type RoomPlanProps = {
   initialLayout?: Partial<RoomLayout>;
   layoutOverride?: RoomLayout | null;
   onLayoutChange?: (layout: RoomLayout) => void;
+  highlightId?: string;
 };
 
 const INCHES_PER_UNIT = 4; // scale for SVG
@@ -19,6 +20,7 @@ export function RoomPlan({
   initialLayout,
   layoutOverride,
   onLayoutChange,
+  highlightId,
 }: RoomPlanProps) {
   const [room, setRoom] = React.useState<RoomLayout>(() =>
     normalizeModelData(initialLayout),
@@ -205,6 +207,8 @@ export function RoomPlan({
             const isAnchor =
               f.kind === "bed" || f.kind === "sofa" || f.kind === "desk";
 
+            const isHighlighted = highlightId === f.id;
+
             return (
               <g
                 key={f.id}
@@ -221,6 +225,8 @@ export function RoomPlan({
                       : "rgba(37,99,235,0.85)"
                   }
                   rx="0.6"
+                  stroke={isHighlighted ? "#60A5FA" : "none"}
+                  strokeWidth={isHighlighted ? 0.5 : 0}
                 />
                 <text
                   x={centerX}

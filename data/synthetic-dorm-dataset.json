@@ -1,0 +1,327 @@
+[
+  {
+    "imageMetadata": {
+      "width": 2048,
+      "height": 1536,
+      "cameraOrientation": "top_down",
+      "focalLengthMm": 24,
+      "deviceModel": "iPhone 15 Pro"
+    },
+    "referenceAnchors": [
+      {
+        "anchorType": "door",
+        "measuredSize": {
+          "width": 36
+        },
+        "bbox": {
+          "x": 0.6377,
+          "y": 0.3996,
+          "width": 0.2125,
+          "height": 0.2752
+        },
+        "notes": "Reference anchor for door"
+      }
+    ],
+    "objectLabels": [
+      {
+        "id": "bed-1",
+        "class": "bed",
+        "bbox": {
+          "x": 0.434,
+          "y": 0.2151,
+          "width": 0.2582,
+          "height": 0.2441
+        },
+        "position": {
+          "x": 42,
+          "z": 90
+        },
+        "size": {
+          "x": 39,
+          "z": 80
+        },
+        "rotation": 0
+      },
+      {
+        "id": "desk-1",
+        "class": "desk",
+        "bbox": {
+          "x": 0.619,
+          "y": 0.2661,
+          "width": 0.2292,
+          "height": 0.269
+        },
+        "position": {
+          "x": 60,
+          "z": 24
+        },
+        "size": {
+          "x": 48,
+          "z": 24
+        },
+        "rotation": 0
+      },
+      {
+        "id": "closet-1",
+        "class": "closet",
+        "bbox": {
+          "x": 0.2849,
+          "y": 0.2568,
+          "width": 0.2745,
+          "height": 0.1667
+        },
+        "position": {
+          "x": 6,
+          "z": 6
+        },
+        "size": {
+          "x": 36,
+          "z": 24
+        },
+        "rotation": 0
+      },
+      {
+        "id": "door-1",
+        "class": "door",
+        "bbox": {
+          "x": 0.1374,
+          "y": 0.5256,
+          "width": 0.321,
+          "height": 0.2225
+        },
+        "position": {
+          "x": 60,
+          "z": 0
+        },
+        "size": {
+          "x": 36,
+          "z": 1
+        },
+        "rotation": 0,
+        "anchorType": "door"
+      },
+      {
+        "id": "dresser-1",
+        "class": "dresser",
+        "bbox": {
+          "x": 0.0859,
+          "y": 0.153,
+          "width": 0.2138,
+          "height": 0.1824
+        },
+        "position": {
+          "x": 100,
+          "z": 80
+        },
+        "size": {
+          "x": 30,
+          "z": 18
+        },
+        "rotation": 0
+      }
+    ],
+    "roomAnnotation": {
+      "wallCorners": [
+        {
+          "x": 0,
+          "z": 0
+        },
+        {
+          "x": 120,
+          "z": 0
+        },
+        {
+          "x": 120,
+          "z": 144
+        },
+        {
+          "x": 0,
+          "z": 144
+        }
+      ],
+      "roomWidth": 120,
+      "roomDepth": 144,
+      "roomHeight": 96,
+      "door": {
+        "id": "main-door",
+        "wallIndex": 0,
+        "offsetFromLeft": 60,
+        "width": 36,
+        "swing": "in_right"
+      },
+      "fixedZones": [
+        {
+          "type": "closet",
+          "x": 6,
+          "z": 6,
+          "width": 36,
+          "depth": 24
+        }
+      ]
+    },
+    "notes": "Synthetic dorm room sample with door as a scale anchor."
+  },
+  {
+    "imageMetadata": {
+      "width": 2048,
+      "height": 1536,
+      "cameraOrientation": "top_down",
+      "focalLengthMm": 24,
+      "deviceModel": "iPhone 15 Pro"
+    },
+    "referenceAnchors": [
+      {
+        "anchorType": "closet",
+        "measuredSize": {
+          "width": 36,
+          "depth": 24
+        },
+        "bbox": {
+          "x": 0.1624,
+          "y": 0.0952,
+          "width": 0.2158,
+          "height": 0.1959
+        },
+        "notes": "Reference anchor for closet"
+      }
+    ],
+    "objectLabels": [
+      {
+        "id": "bed-1",
+        "class": "bed",
+        "bbox": {
+          "x": 0.2266,
+          "y": 0.2043,
+          "width": 0.3037,
+          "height": 0.2541
+        },
+        "position": {
+          "x": 42,
+          "z": 90
+        },
+        "size": {
+          "x": 39,
+          "z": 80
+        },
+        "rotation": 0
+      },
+      {
+        "id": "desk-1",
+        "class": "desk",
+        "bbox": {
+          "x": 0.4999,
+          "y": 0.2252,
+          "width": 0.2231,
+          "height": 0.2615
+        },
+        "position": {
+          "x": 60,
+          "z": 24
+        },
+        "size": {
+          "x": 48,
+          "z": 24
+        },
+        "rotation": 0
+      },
+      {
+        "id": "closet-1",
+        "class": "closet",
+        "bbox": {
+          "x": 0.2557,
+          "y": 0.5071,
+          "width": 0.2265,
+          "height": 0.2276
+        },
+        "position": {
+          "x": 6,
+          "z": 6
+        },
+        "size": {
+          "x": 36,
+          "z": 24
+        },
+        "rotation": 0,
+        "anchorType": "closet"
+      },
+      {
+        "id": "door-1",
+        "class": "door",
+        "bbox": {
+          "x": 0.4925,
+          "y": 0.4594,
+          "width": 0.2466,
+          "height": 0.2455
+        },
+        "position": {
+          "x": 60,
+          "z": 0
+        },
+        "size": {
+          "x": 36,
+          "z": 1
+        },
+        "rotation": 0
+      },
+      {
+        "id": "dresser-1",
+        "class": "dresser",
+        "bbox": {
+          "x": 0.4988,
+          "y": 0.2702,
+          "width": 0.268,
+          "height": 0.2362
+        },
+        "position": {
+          "x": 100,
+          "z": 80
+        },
+        "size": {
+          "x": 30,
+          "z": 18
+        },
+        "rotation": 0
+      }
+    ],
+    "roomAnnotation": {
+      "wallCorners": [
+        {
+          "x": 0,
+          "z": 0
+        },
+        {
+          "x": 120,
+          "z": 0
+        },
+        {
+          "x": 120,
+          "z": 144
+        },
+        {
+          "x": 0,
+          "z": 144
+        }
+      ],
+      "roomWidth": 120,
+      "roomDepth": 144,
+      "roomHeight": 96,
+      "door": {
+        "id": "main-door",
+        "wallIndex": 0,
+        "offsetFromLeft": 60,
+        "width": 36,
+        "swing": "in_right"
+      },
+      "fixedZones": [
+        {
+          "type": "closet",
+          "x": 6,
+          "z": 6,
+          "width": 36,
+          "depth": 24
+        }
+      ]
+    },
+    "notes": "Synthetic dorm room sample with closet as a scale anchor."
+  }
+]

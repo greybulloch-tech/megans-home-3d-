@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { normalizeModelData } from "../../../lib/normalizeModelData";
-import type { RoomLayout } from "../../../lib/types";
+import type { ModelInput } from "../../../lib/types";
+import { runInferencePipeline } from "../../../lib/modelPipeline";
 
-// This is a placeholder "AI" endpoint that deterministically
-// generates a reasonable bedroom layout based on the uploaded file size.
-// It uses the golden example format (120" × 144" dorm) and converts it
-// to our internal RoomLayout structure.
+// AI placeholder endpoint for early scale-anchor inference.
+// It accepts a room photo upload and selected metadata, then returns a
+// mock `ModelOutput` that follows the real model contract.
 
 export const runtime = "edge";
 
@@ -46,66 +45,52 @@ export async function POST(request: Request) {
     );
   }
 
-  const primaryFile = fileEntries[0];
-  const size = primaryFile.size || 1;
+  const selectedReferenceAnchor = formData.get("selectedReferenceAnchor");
+  const cameraOrientation = formData.get("cameraOrientation");
+  const focalLengthMm = formData.get("focalLengthMm");
+  const deviceModel = formData.get("deviceModel");
+  const imageWidth = formData.get("imageWidth");
+  const imageHeight = formData.get("imageHeight");
+  const imageBase64 = formData.get("imageBase64");
 
-  // Simple deterministic "randomness" from file size
-  const pseudoRandom = (seed: number) => {
-    const x = Math.sin(seed) * 10000;
-    return x - Math.floor(x);
+  const modelInput: ModelInput = {
+    imageBase64: typeof imageBase64 === "string" ? imageBase64 : undefined,
+    cameraMetadata: {
+      width: imageWidth ? Number(imageWidth) : 0,
+      height: imageHeight ? Number(imageHeight) : 0,
+      cameraOrientation:
+        typeof cameraOrientation === "string" &&
+        ["top_down", "angled", "eye_level"].includes(cameraOrientation)
+          ? (cameraOrientation as "top_down" | "angled" | "eye_level")
+          : "top_down",
+      focalLengthMm: typeof focalLengthMm === "string" ? Number(focalLengthMm) : undefined,
+      deviceModel: typeof deviceModel === "string" ? deviceModel : undefined,
+    },
+    selectedReferenceAnchor:
+      typeof selectedReferenceAnchor === "string"
+        ? (selectedReferenceAnchor as any)
+        : undefined,
   };
 
-  // Generate layout matching golden example format (120" × 144" dorm)
-  const width = 120;
-  const depth = 144;
+  const inference = runInferencePipeline(modelInput);
 
-  // Golden example A: Accurate twin bed layout
-  const goldenExample: any = {
-    units: "in",
-    room: {
-      width,
-      depth,
-      height: 96,
-      wallThickness: 6,
-    },
-    door: {
-      wallIndex: 0,
-      offsetFromLeft: width / 2, // 60
-      width: 36,
-      swing: "in_right",
-    },
-    fixedZones: [
-      {
-        type: "closet",
-        x: 0,
-        z: 0,
-        width: 30,
-        depth: 72,
-      },
-    ],
-    furniture: [
-      {
-        type: "desk_standard",
-        x: 12 + pseudoRandom(size) * 6, // slight variation
-        z: 84 + pseudoRandom(size + 1) * 10,
-        rotation: 90,
-      },
-      {
-        type: "bed_twin",
-        x: 40 + pseudoRandom(size + 2) * 10,
-        z: 124.5 + pseudoRandom(size + 3) * 5,
-        rotation: 90,
-      },
-      {
-        type: "nightstand",
-        x: 20 + pseudoRandom(size + 4) * 8,
-        z: 120 + pseudoRandom(size + 5) * 8,
-        rotation: 0,
-      },
-    ],
-  };
+  // Allow an external model endpoint to be used. Set MODEL_ENDPOINT in env.
+  const modelEndpoint = process.env.MODEL_ENDPOINT;
+  if (modelEndpoint) {
+    try {
+      const resp = await fetch(modelEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(modelInput),
+      });
+      if (resp.ok) {
+        const json = await resp.json();
+        return NextResponse.json(json);
+      }
+    } catch (e) {
+      // If proxy fails, continue with internal inference as fallback
+    }
+  }
 
-  const normalized = normalizeModelData(goldenExample);
-
-  return NextResponse.json({ layout: normalized });
+  return NextResponse.json(inference);
 }

@@ -293,58 +293,96 @@ export default function Home() {
         {/* ─── Design Tool (3D) ─── */}
         <section id="design" className="border-t border-[var(--border)] py-24 md:py-36">
           <div className="mx-auto max-w-7xl px-6 sm:px-10">
-            <div className="grid gap-16 md:grid-cols-[1.2fr_1fr] md:items-start">
-              <div>
-                <ScrollReveal>
+            <div className="rounded-[2rem] border border-[var(--border)] bg-[var(--cream)] p-6 shadow-[0_20px_80px_rgba(0,0,0,0.06)] sm:p-8 lg:p-10">
+              <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                <ScrollReveal className="max-w-2xl">
                   <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.25em] text-[var(--muted)]">
                     Design Tool
                   </p>
-                  <h2 className="mb-6 text-[clamp(1.8rem,3.5vw,3rem)] font-extralight leading-tight tracking-tight">
-                    Upload your room.
+                  <h2 className="text-[clamp(1.8rem,3.5vw,3rem)] font-extralight leading-tight tracking-tight">
+                    Your 3D room, built
                     <br />
-                    See the magic.
+                    for quick iteration.
                   </h2>
-                  <p className="mb-8 max-w-md text-[14px] font-light leading-relaxed text-[var(--muted)]">
-                    Drop in up to five photos of the same room. We parse
-                    geometry, infer furniture, and return a clean, editable 3D
-                    room with physics validation from the first frame.
+                  <p className="mt-5 max-w-xl text-[14px] font-light leading-relaxed text-[var(--muted)]">
+                    Drop in up to five photos of the same room and move straight
+                    into a spacious, editable 3D workspace with clearer controls
+                    and a larger live preview.
                   </p>
                 </ScrollReveal>
 
-                <ScrollReveal delay={200}>
-                  <RoomExperienceClient />
-                </ScrollReveal>
-
-                <ScrollReveal delay={300}>
-                  <p className="mt-4 text-[11px] font-light text-[var(--muted)]">
-                    We never train on your personal imagery. Your data stays
-                    yours.
-                  </p>
-                </ScrollReveal>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    "Upload photos",
+                    "Explore 3D",
+                    "Refine layout",
+                  ].map((step) => (
+                    <span
+                      key={step}
+                      className="rounded-full border border-[var(--border)] bg-white/70 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--muted)]"
+                    >
+                      {step}
+                    </span>
+                  ))}
+                </div>
               </div>
 
-              <ScrollReveal delay={200}>
-                <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-white">
-                  <div className="flex items-center gap-2 border-b border-[var(--border)] px-4 py-3">
-                    <div className="flex gap-1.5">
-                      <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+              <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+                <div className="order-2 xl:order-1">
+                  <ScrollReveal delay={120}>
+                    <div className="rounded-[1.5rem] border border-[var(--border)] bg-white/80 p-3 shadow-[0_12px_35px_rgba(0,0,0,0.05)] sm:p-5">
+                      <div className="mb-4 flex items-center justify-between gap-3">
+                        <div>
+                          <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-[var(--muted)]">
+                            3D Model Workspace
+                          </p>
+                          <p className="mt-1 text-sm font-light text-[var(--fg)]">
+                            Upload, inspect, and tune the room model in one place.
+                          </p>
+                        </div>
+                        <a
+                          href="#design"
+                          className="rounded-full border border-[var(--border)] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--muted)] transition hover:bg-[var(--cream)]"
+                        >
+                          Focus Mode
+                        </a>
+                      </div>
+                      <RoomExperienceClient />
                     </div>
-                    <span className="ml-2 text-[11px] font-light text-[var(--muted)]">
-                      Live 3D Preview
-                    </span>
-                  </div>
-                  <Suspense
-                    fallback={
-                      <div className="aspect-[4/3] w-full animate-pulse bg-[var(--cream)]" />
-                    }
-                  >
-                    <div className="aspect-[4/3] w-full">
-                      <Room3DScene />
-                    </div>
-                  </Suspense>
+                  </ScrollReveal>
                 </div>
+
+                <div className="order-1 xl:order-2">
+                  <ScrollReveal delay={180}>
+                    <div className="overflow-hidden rounded-[1.5rem] border border-[var(--border)] bg-white p-2 shadow-[0_16px_45px_rgba(0,0,0,0.08)]">
+                      <div className="flex items-center gap-2 border-b border-[var(--border)] px-4 py-3">
+                        <div className="flex gap-1.5">
+                          <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                          <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                          <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                        </div>
+                        <span className="ml-2 text-[11px] font-light text-[var(--muted)]">
+                          Live 3D Preview
+                        </span>
+                      </div>
+                      <Suspense
+                        fallback={
+                          <div className="min-h-[420px] w-full animate-pulse bg-[var(--cream)] md:min-h-[520px]" />
+                        }
+                      >
+                        <div className="min-h-[420px] w-full md:min-h-[520px]">
+                          <Room3DScene />
+                        </div>
+                      </Suspense>
+                    </div>
+                  </ScrollReveal>
+                </div>
+              </div>
+
+              <ScrollReveal delay={240}>
+                <p className="mt-6 text-[11px] font-light text-[var(--muted)]">
+                  We never train on your personal imagery. Your data stays yours.
+                </p>
               </ScrollReveal>
             </div>
           </div>
